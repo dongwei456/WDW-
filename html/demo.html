@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>WDW 数据压缩 API - 浏览器 SDK Demo</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         max-width: 820px; margin: 30px auto; padding: 0 20px; background: #0d1117; color: #c9d1d9; }
+  h1 { font-size: 22px; }
+  label { display: block; margin: 14px 0 4px; font-size: 12px; color: #8b949e; }
+  input, textarea { width: 100%; box-sizing: border-box; background: #161b22; color: #c9d1d9;
+                    border: 1px solid #30363d; border-radius: 6px; padding: 10px; font-size: 13px;
+                    font-family: inherit; }
+  textarea { min-height: 110px; resize: vertical; }
+  .row { display: flex; gap: 10px; margin-top: 14px; }
+  button { flex: 1; padding: 11px; border: 0; border-radius: 6px; cursor: pointer;
+           font-size: 14px; font-weight: 600; }
+  .compress { background: #238636; color: #fff; }
+  .decompress { background: #1f6feb; color: #fff; }
+  pre { background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+        padding: 12px; white-space: pre-wrap; word-break: break-all; min-height: 50px; }
+  .err { color: #f85149; border-color: #f85149; }
+  .stats { font-size: 12px; color: #8b949e; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>WDW 大文本数据压缩 API · 浏览器 SDK Demo</h1>
+
+  <label>API Key</label>
+  <input id="key" placeholder="登录 https://www.zhongbaomaoyi.cn 控制台获取">
+
+  <label>输入内容 (要压缩的文本，或解压时粘贴 base85 结果)</label>
+  <textarea id="input" placeholder="在这里输入..."></textarea>
+
+  <div class="row">
+    <button class="compress" onclick="doCompress()">压缩 (lx=1)</button>
+    <button class="decompress" onclick="doDecompress()">解压 (lx=2)</button>
+  </div>
+
+  <label>返回结果</label>
+  <pre id="output">未调用</pre>
+  <div class="stats" id="stats"></div>
+
+  <script src="wdw.js"></script>
+  <script>
+    function client() {
+      const key = document.getElementById('key').value.trim();
+      if (!key) { alert('请先填写 API Key'); throw new Error('no key'); }
+      return new WdwClient(key);
+    }
+    async function doCompress() {
+      const text = document.getElementById('input').value;
+      const out = document.getElementById('output');
+      const st = document.getElementById('stats');
+      out.textContent = '压缩中...';
+      try {
+        const b85 = await client().compress(text);
+        out.textContent = b85;
+        out.classList.remove('err');
+        const inBytes = new TextEncoder().encode(text).length;
+        st.textContent = `输入 ${inBytes} 字节 → base85 文本 ${b85.length} 字符`;
+      } catch (e) {
+        out.textContent = '错误: ' + e.message;
+        out.classList.add('err');
+      }
+    }
+    async function doDecompress() {
+      const b85 = document.getElementById('input').value.trim();
+      const out = document.getElementById('output');
+      const st = document.getElementById('stats');
+      out.textContent = '解压中...';
+      try {
+        const text = await client().decompress(b85);
+        out.textContent = text;
+        out.classList.remove('err');
+        st.textContent = `base85 ${b85.length} 字符 → 原文 ${new TextEncoder().encode(text).length} 字节`;
+      } catch (e) {
+        out.textContent = '错误: ' + e.message;
+        out.classList.add('err');
+      }
+    }
+  </script>
+</body>
+</html>
