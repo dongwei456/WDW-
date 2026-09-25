@@ -10,7 +10,7 @@
 
 * 协议：HTTPS `POST application/x-www-form-urlencoded`
 
-* 压缩扣 1 次额度，解压免费。
+
 
 
 
