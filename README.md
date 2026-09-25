@@ -6,7 +6,7 @@
 
 * 官方端点：`https://www.zhongbaomaoyi.cn/fwq/shujuyasuo/compress_api.php`
 
-* 注册 / 获取 Key：[https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.com.cn/](https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.com.cn/)
+* 注册 / 获取 Key：[https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.com.cn/](https://www.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.com.cn/)
 
 * 协议：HTTPS `POST application/x-www-form-urlencoded`
 
